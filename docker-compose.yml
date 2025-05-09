@@ -3,18 +3,22 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0
-    container_name: todoapp_mysql
+    container_name: todo_app_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 123
-      MYSQL_DATABASE: todoapp
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todo_app
+      MYSQL_USER: todo_user
+      MYSQL_PASSWORD: todo_password
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:
