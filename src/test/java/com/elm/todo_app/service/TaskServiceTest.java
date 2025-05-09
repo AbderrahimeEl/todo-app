@@ -110,7 +110,7 @@ public class TaskServiceTest {
             taskService.updateTaskStatus(TASK_ID, Statut.IN_PROGRESS);
         });
         
-        assertTrue(exception.getMessage().contains("Tsk not found"));
+        assertTrue(exception.getMessage().contains("Task not found"));
         verify(taskRepository).findById(TASK_ID);
         verify(taskRepository, never()).save(any(Task.class));
     }
